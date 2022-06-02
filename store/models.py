@@ -25,6 +25,7 @@ class Product(models.Model):
     author = models.CharField(max_length=255, default='admin')
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to = 'images/')
+    slug = models.SlugField(max_length=255)
     price = models.DecimalField(max_digits=4, decimal_places=2)
     in_stock = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
