@@ -1,8 +1,15 @@
+from email.policy import default
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 
 # Create your models here.
+
+
+class ProductManager(models.Manager):
+    def get_queryset(self):
+        return super(ProductManager, self).get_queryset().filter(is_active=True, in_stock=True)
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255, db_index=True)
@@ -13,7 +20,7 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         return reverse("store:category_list", args=[self.slug])
-    
+
     def __str__(self):
         return f"{self.name}"
 
@@ -24,7 +31,7 @@ class Product(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255, default='admin')
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to = 'images/')
+    image = models.ImageField(upload_to='images/', default='images/No_image_available.png')
     slug = models.SlugField(max_length=255)
     price = models.DecimalField(max_digits=4, decimal_places=2)
     in_stock = models.BooleanField(default=True)
@@ -33,13 +40,15 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
 
+    objects = models.Manager()
+    products = ProductManager()
+
     class Meta:
         verbose_name_plural = 'Products'
         ordering = ('-created',)
 
-    
     def get_absolute_url(self):
-        return reverse("store:detail_product", args=[self.slug])
+        return reverse("store:product_detail", args=[self.slug])
 
     def __str__(self):
         return f"{self.title}"

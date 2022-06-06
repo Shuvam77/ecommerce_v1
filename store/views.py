@@ -4,18 +4,14 @@ from . models import Category, Product
 # Create your views here.
 
 
-def all_products(request):
-    products = Product.objects.all()
+def products_all(request):
+    products = Product.products.all()
     return render(request, 'store/home.html', {'products': products})
 
-def categories(request):
-    return {
-        'categories' : Category.objects.all()
-    }
 
-def detail_product(request, slug):
+def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, in_stock=True, is_active=True)
-    return render(request, "store/products/detail_product.html", {'product':product})
+    return render(request, "store/products/detail_product.html", {'product': product})
 
 
 def category_list(request, slug):
