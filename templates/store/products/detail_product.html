@@ -63,6 +63,7 @@
       },
       success: function(json){
         console.log(json)
+        document.getElementById('qty').innerHTML = json.basket_qty
       },
       error: function(xhr, errmsg, err){
 
