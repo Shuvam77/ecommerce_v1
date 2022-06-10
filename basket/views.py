@@ -7,7 +7,8 @@ from store.models import Product
 
 
 def basket_summary(request):
-    return render(request, 'store/basket/summary.html')
+    basket = Basket(request)
+    return render(request, 'store/basket/summary.html', {'basket':basket})
 
 
 def basket_add(request):
@@ -20,4 +21,13 @@ def basket_add(request):
         
         basket_qty = basket.__len__()
         response = JsonResponse({'qty':product_qty, 'basket_qty':basket_qty})
+        return response
+
+def basket_delete(request):
+    basket = Basket(request)
+    if request.POST.get('action') == 'post':
+        product_id = int(request.POST.get('product_id'))
+
+        basket.delete(product = product_id)
+        response = JsonResponse({'success':'Product Deleted!'})
         return response
