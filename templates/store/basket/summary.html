@@ -81,7 +81,7 @@ BASKET IT IS!!
       var prodid = $(this).data('index');
   //    console.log($('#select option:selected').text())
       $.ajax({
-        type: "POST",
+        type: 'POST',
         url: "{% url 'basket:basket_delete' %}",
         data: {
 //          product_id: $('#delete-button').val(),
@@ -98,6 +98,32 @@ BASKET IT IS!!
         },
       });
     })
+
+
+    // Update item
+    $(document).on('click', '.update-button', function(e){
+      e.preventDefault();
+      var prodid = $(this).data('index');
+
+      $.ajax({
+        type:'POST',
+        url: "{% url 'basket:basket_update' %}",
+        data:{
+          product_id: $(this).data('index'),
+          product_qty:$('#select'+prodid+' option:selected').text(),
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function(json){
+          console.log(json)
+          document.getElementById("qty").innerHTML = json.qty
+          document.getElementById("subtotal").innerHTML = json.basket_total
+        },
+        error: function(xhr, errmsg, err){
+
+        }
+        });
+    });
   </script>
 
 {% endblock %}

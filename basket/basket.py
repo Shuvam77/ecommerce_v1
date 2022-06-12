@@ -60,6 +60,16 @@ class Basket():
         """
         return sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
 
+    def update(self, product, product_qty):
+        """
+        Update items from session data
+        """
+        product_id = str(product)
+        if product_id in self.basket:
+            self.basket[product_id]['qty'] = product_qty
+        self.save()
+
+
     def delete(self, product):
         """
         Delete item from session data
@@ -67,7 +77,6 @@ class Basket():
         product_id = str(product)
         if product_id in self.basket:
             del self.basket[product_id]
-
             self.save()
 
     def save(self):
