@@ -21,7 +21,7 @@ class Basket():
         """
         Adding and uploading the user basket session data
         """
-        product_id = product.id
+        product_id = str(product.id)
         if product_id in self.basket:
             self.basket[product_id]['qty'] = product_qty
         else:

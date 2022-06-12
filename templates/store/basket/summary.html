@@ -44,7 +44,7 @@ BASKET IT IS!!
 
                         <div class="col-12 text-end">
                             <div class="h6 fw-bold">
-                                Sub Total: $<span id="subtotal"class="d-inline-flex">{{item.total_price}}</span>
+                                Sub Total: $<span id="subsubtotal"class="d-inline-flex">{{item.total_price}}</span>
                             </div>
                         </div>
 
@@ -91,6 +91,8 @@ BASKET IT IS!!
         },
         success: function(json){
 //            window.location.reload()
+            document.getElementById("qty").innerHTML = json.qty
+            document.getElementById("subtotal").innerHTML = json.basket_total
             $('.product-item[data-index="'+prodid+'"]').remove();
         },
         error: function(xhr, errmsg, err){
@@ -118,6 +120,7 @@ BASKET IT IS!!
           console.log(json)
           document.getElementById("qty").innerHTML = json.qty
           document.getElementById("subtotal").innerHTML = json.basket_total
+          window.location.reload()
         },
         error: function(xhr, errmsg, err){
 
