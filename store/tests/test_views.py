@@ -1,4 +1,6 @@
+from importlib import import_module
 from unittest import skip
+from django.conf import settings
 from django.http import HttpRequest
 
 from django.test import TestCase, Client, RequestFactory
@@ -41,6 +43,10 @@ class TestViewResponse(TestCase):
 
     def test_homepage_html(self):
         request = HttpRequest()
+
+        engine = import_module(settings.SESSION_ENGINE)
+        request.session = engine.SessionStore()
+
         response = products_all(request)
         html = response.content.decode('utf8')
         # check to see data is correct
@@ -49,9 +55,14 @@ class TestViewResponse(TestCase):
         # self.assertTrue(html.startswith('\n<!DOCTYPE html>\n'))
         self.assertEqual(response.status_code, 200)
 
-    def test_view_function(self):
-        request = self.factory.get('/product/django-beginners')
-        response = products_all(request)
-        html = response.content.decode('utf8')
-        self.assertIn('<title>Home</title>', html)
-        self.assertEqual(response.status_code, 200)
+
+
+    # def test_view_function(self):
+    #     """
+    #     Example: using request Factory
+    #     """
+    #     request = self.factory.get('/product/django-beginners')
+    #     response = products_all(request)
+    #     html = response.content.decode('utf8')
+    #     self.assertIn('<title>Home</title>', html)
+    #     self.assertEqual(response.status_code, 200)
