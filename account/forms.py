@@ -7,3 +7,7 @@ class RegistrationForm(forms.ModelForm):
     email = forms.EmailField(label='Enter Email', max_length=100, help_text='Required!', error_messages={'required': 'Sorry, you need to enter a valid email!'})
     password1 = forms.CharField(label='Enter your password', min_length=4, max_length=50, help_text='Required!', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Enter your password again', min_length=4, max_length=50, help_text='Required!', widget=forms.PasswordInput)
+
+    class Meta:
+        model = UserBase
+        fields = ('user_name', 'email')

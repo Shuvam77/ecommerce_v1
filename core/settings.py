@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 
+from django.conf import PASSWORD_RESET_TIMEOUT_DAYS_DEPRECATED_MSG
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -152,3 +154,9 @@ LOGOUT_REDIRECT_URL = 'store'
 ACCOUNT_LOGOUT_REDIRECT = 'store'
 
 SITE_ID = 1
+
+# Password reset in days only
+# PASSWORD_RESET_TIMEOUT_DAYS = 1
+
+#Password reset in seconds
+PASSWORD_RESET_TIMEOUT = 900
