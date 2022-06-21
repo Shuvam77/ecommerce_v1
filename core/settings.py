@@ -158,3 +158,6 @@ SITE_ID = 1
 
 #Password reset in seconds
 PASSWORD_RESET_TIMEOUT = 900
+
+# Email setting
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
