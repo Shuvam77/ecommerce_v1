@@ -145,11 +145,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Custome UserModel
 AUTH_USER_MODEL = 'account.UserBase'
 
-LOGIN_REDIRECT_URL = 'store'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/account/login/'
 
-LOGOUT_REDIRECT_URL = 'store' 
-ACCOUNT_LOGOUT_REDIRECT = 'store'
+LOGOUT_REDIRECT_URL = '/' 
+ACCOUNT_LOGOUT_REDIRECT = '/'
 
 SITE_ID = 1
 
