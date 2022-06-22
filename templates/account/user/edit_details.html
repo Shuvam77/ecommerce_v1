@@ -1,0 +1,77 @@
+{% extends '../../store/base.html' %}
+{% load static %}
+{% block title %} Edit Your Profile {% endblock title %}
+
+{% block content %}
+
+<style>
+    .account-form input {
+        border: 2px solid #ccc;
+        height: calc(2em + .75rem + 2px);
+    }
+
+    .account-form input:focus {
+        border-color: #1497ff;
+        box-shadow: none;
+    }
+</style>
+
+
+<div class="container-fluid">
+    <div class="row no-gutter">
+        <div class="col-md-12">
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg-7 max-auto">
+
+                        <form class="account-from p-4 rounded col-lg-10 mx-auto" action="" enctype="multipart/form-data" method="post">
+                            {% csrf_token %}
+
+                            {% if user_form.is_valid %}
+                            <div class="alert alert-primary" role="alert">
+                                Details successfully uploaded!
+                            </div>
+                            <p class="small text-center pt-0">
+                                <a href="{% url 'account:dashboard' %}">Back to Dashboard</a>
+                            </p>
+
+                            {% else %}
+                            <h3>Change Your details</h3>
+                            <p>You can edit your account using the following form:</p>
+
+                            {% endif %}
+
+                            {% if form.errors %}
+                            <div class="alert alert-primary" role="alert">
+                                Error: Please try again!
+                            </div>
+
+                            {% endif %}
+
+                            <label class="form-label">{{user_form.email.label}}</label>
+                            {{user_form.email}}
+
+                            {% comment %} <label class="form-label">{{user_form.user_name.label}}</label>
+                            {{user_from.user_name}}  {% endcomment %}
+
+                            <label class="form-label">{{user_form.first_name.label}}</label>
+                            {{user_form.first_name}}
+
+                            <label class="form-label">{{user_form.about.label}}</label>
+                            {{user_form.about}}
+
+
+                            <button class="btn btn-primary btn-block py-2 mb-4 mt-5 fw-bold w-100" type="submit" value="save-changes">Save Changes</button>
+                            <hr class="mb-3">
+                        </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

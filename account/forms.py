@@ -1,3 +1,4 @@
+from logging import PlaceHolder
 from django import forms
 from .models import UserBase
 from django.contrib.auth.forms import AuthenticationForm
@@ -52,3 +53,23 @@ class UserLoginForm(AuthenticationForm):
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class':'form-control mb-3', 'placeholder':'Password', 'id':'login-pwd'}
     ))
+
+
+class UserEditForm(forms.ModelForm):
+    email = forms.EmailField(label='Account Email cannot be changed', max_length=200, widget=forms.TextInput(
+        attrs={'class': 'form-control mb-3', 'placeholder': 'Email Address', 'id':'form-email', 'readonly':'readonly'}))
+    # user_name = forms.CharField(label='Username', min_length=4, max_length=50, widget=forms.TextInput(
+    #     attrs={'class': 'form-control mb-3', 'placeholder': 'Username', 'id': 'form-username', 'readonly': 'readonly'}))
+    first_name = forms.CharField(label='FirstName', min_length=4, max_length=50, widget=forms.TextInput(
+        attrs={'class': 'form-control mb-3', 'placeholder': 'Firstname', 'id': 'form-firstname'}))
+    about = forms.CharField(label='About User', min_length=20, max_length=150, widget=forms.Textarea(
+        attrs={'class': 'form-control mb-3', 'placeholder': 'User Bio', 'id': 'form-bio'}))
+
+    class Meta:
+        model = UserBase
+        fields = ('email', 'first_name', 'about')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # self.fields['user_name'].required = True
+        self.fields['email'].required = True
