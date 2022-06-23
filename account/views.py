@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -19,8 +19,8 @@ def dashboard(request):
     return render(request, 'account/user/dashboard.html')
 
 def account_register(request):
-    # if request.user.is_authenticated:
-    #     return redirect('/')
+    if request.user.is_authenticated:
+        return redirect('/')
 
     if request.method == 'POST':
         registerForm = RegistrationForm(request.POST)
@@ -73,9 +73,11 @@ def edit_details(request):
     return render(request, 'account/user/edit_details.html', {'user_form':user_form})
 
 @login_required
-def delete_user(request):
-    user = UserBase.objects.get(pk=request.user.id)
-    user.is_active = False
-    user.save()
-    logout(request)
-    return redirect('account:delete_confirmation')
+def delete_user(request, id):
+    user = get_object_or_404(UserBase,pk=id)
+    if request.method == 'POST':
+        user.is_active = False
+        user.save()
+        logout(request)
+        return redirect('account:delete_confirmation')
+    return render (request, 'account/user/delete_confirmation.html', {'user':user})
