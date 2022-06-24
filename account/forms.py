@@ -1,7 +1,7 @@
 from logging import PlaceHolder
 from django import forms
 from .models import UserBase
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
 
 
 class RegistrationForm(forms.ModelForm):
@@ -73,3 +73,26 @@ class UserEditForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # self.fields['user_name'].required = True
         self.fields['email'].required = True
+
+
+class PwdResetForm(PasswordResetForm):
+    
+    email = forms.EmailField(max_length=254, widget=forms.TextInput(
+        attrs={'class':'form-control mb-3', 'placeholder': 'Email', 'id':'form-email'}
+    ))
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        user = UserBase.objects.filter(email=email)
+        if not user:
+            raise forms.ValidationError('Unfortunately we cannot find that email address!')
+        return email
+
+
+class PwdResetConfirmForm(SetPasswordForm):
+    new_password1 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class':'form-control mb-3', 'placeholder':'Type New Password', 'id':'reset-pwd1'}
+    ))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class':'form-control mb-3', 'placeholder':'Type New Password Again', 'id':'reset-pwd2'}
+    ))
