@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from basket.basket import Basket
+from decouple import config
 
 import stripe
 
@@ -14,7 +15,7 @@ def BasketView(request):
     total = basket_total.replace('.', '')
     total = int(total)
 
-    stripe.api_key = 'pk_test_51KEZgSGN1xHMll4X7zH9iecvd9KPhyxoiQCDjysHrkIbFmUX4eBxAJLD0KTLkO8xGlaP4VkjOuKIjXjJqCHJY0ye00LHBg8Bg9'
+    stripe.api_key = config('STRIPE_API_KEY')
     intent = stripe.PaymentIntent.create(
         amount = total,
         currency = 'eur',
