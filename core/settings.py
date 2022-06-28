@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'basket',
     'account',
     'payment',
+    'orders',
 
 #    Third-Party applications
     'django_countries',
