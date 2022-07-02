@@ -23,3 +23,7 @@ def add(request):
                 OderItem.objects.create(order_id=order_id, product=item['product'], price=item['price'], quantity=item['qty'])
         response = JsonResponse({'success': 'Order Saved!'})
         return response
+
+
+def payment_confirmation(data):
+    Order.objects.filter(order_key=data).update(billing_status=True)

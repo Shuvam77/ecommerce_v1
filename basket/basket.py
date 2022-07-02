@@ -1,5 +1,7 @@
 from decimal import Decimal
 from itertools import product
+
+from django.conf import settings
 from store.models import Product
 
 
@@ -81,3 +83,9 @@ class Basket():
 
     def save(self):
         self.session.modified = True
+
+
+    def clear(self):
+        # del self.session[settings.BASKET_SESSION_ID]
+        del self.session['basket-session-key']
+        self.save()

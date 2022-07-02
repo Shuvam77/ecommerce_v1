@@ -66,7 +66,7 @@ form.addEventListener('submit', function(ev){
                 } else {
                     if (result.paymentIntent.status === 'succeeded'){
                         console.log('payment processed');
-                        window.location.replace("http://127.0.0.1:8000/payment/orderedplaced/");
+                        window.location.replace("http://127.0.0.1:8000/payment/orderplaced/");
                     }
                 }
             });
