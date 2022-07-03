@@ -12,11 +12,15 @@ from .forms import RegistrationForm, UserEditForm
 from .token import account_activation_token
 
 from django.contrib.auth.decorators import login_required
+
+from orders.views import user_orders
+
 # Create your views here.
 
 @login_required
 def dashboard(request):
-    return render(request, 'account/user/dashboard.html')
+    orders = user_orders(request)
+    return render(request, 'account/user/dashboard.html', {'orders':orders})
 
 def account_register(request):
     if request.user.is_authenticated:

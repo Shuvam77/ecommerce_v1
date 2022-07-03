@@ -186,8 +186,9 @@
               total = 0
               subtotal = 0
             } else {
-              total = (parseFloat(json.basket_total) + 11.50).toFixed(2);
-              subtotal = json.basket_total
+              //total = (parseFloat(json.basket_total) + 11.50).toFixed(2);
+              total = json.basket_total
+              subtotal = json.basket_subtotal
             }
 
             document.getElementById("qty").innerHTML = json.qty
@@ -217,11 +218,11 @@
         },
         success: function(json){
         //  console.log(json)
-          total = (parseFloat(json.basket_total) + 11.50).toFixed(2);
+        //total = (parseFloat(json.basket_total) + 11.50).toFixed(2);
+          total = json.basket_total
           document.getElementById("qty").innerHTML = json.qty
           document.getElementById("total").innerHTML = total
-          document.getElementById("subtotal").innerHTML = json.basket_total
-        //  window.location.reload()
+          document.getElementById("subtotal").innerHTML = json.basket_subtotal
         },
         error: function(xhr, errmsg, err){
 
