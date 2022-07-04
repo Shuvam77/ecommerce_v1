@@ -1,5 +1,6 @@
 {% extends '../base.html' %}
 {% load static %}
+{% block stylesheet %}<link rel="stylesheet" href="{% static 'store/store.css' %}">{% endblock %}
 {% load humanize %}
 {% block title %}Product Detail{% endblock %}
 
@@ -51,7 +52,7 @@
 
 <main class="pt-2">
 
-  <div class="container" style="max-width: 1000px">
+  <div class="container">
 
     <div class="row g-3">
           <div class="alert alert-primary fw600 rounded-0 border-0 py-3" role="alert">
@@ -75,7 +76,7 @@
             <div><span class="h3">£{{ product.price }}</span><p class="text-muted">includes tax</p></div>
                    <div class="">
                                 <label for="select">Qty</label>
-                                <select id="select" class="h6" style="width:50px;height:40px;">
+                                <select id="select" class="h6 store-select-dropdown">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>

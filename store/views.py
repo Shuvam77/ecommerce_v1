@@ -6,17 +6,17 @@ from . models import Category, Product
 
 def products_all(request):
     products = Product.products.all()
-    return render(request, 'store/home.html', {'products': products})
+    return render(request, 'store/index.html', {'products': products})
 
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, in_stock=True, is_active=True)
-    return render(request, "store/products/detail_product.html", {'product': product})
+    return render(request, "store/detail_product.html", {'product': product})
 
 
 def category_list(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    products = Product.objects.filter(category=category)
+    products = Product.products.filter(category=category)
 
     context = {'category': category, 'products': products}
-    return render(request, 'store/products/category.html', context)
+    return render(request, 'store/category.html', context)
