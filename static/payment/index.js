@@ -44,6 +44,11 @@ form.addEventListener('submit', function(ev){
             order_key: clientsecret,
             csrfmiddlewaretoken: CSRF_TOKEN,
             action: "post",
+            
+            'custName': custName,
+            'custAdd': custAdd,
+            'custAdd2': custAdd2,
+            'postCode': postCode
         },
         success: function (json){
             console.log(json.success)
