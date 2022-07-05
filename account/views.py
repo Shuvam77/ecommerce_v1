@@ -20,7 +20,7 @@ from orders.views import user_orders
 @login_required
 def dashboard(request):
     orders = user_orders(request)
-    return render(request, 'account/user/dashboard.html', {'orders':orders})
+    return render(request, 'account/dashboard/dashboard.html', {'orders':orders})
 
 def account_register(request):
     if request.user.is_authenticated:
@@ -46,7 +46,7 @@ def account_register(request):
 
             })
             user.email_user(subject=subject, message=message)
-            return HttpResponse('registered succesfully and activation sent')
+            return render(request, 'account/registration/register_email_confirm.html', {'form':registerForm})
     else:
         registerForm = RegistrationForm()
     return render(request, 'account/registration/register.html', {'form':registerForm})
@@ -74,7 +74,7 @@ def edit_details(request):
             user_form.save()
     else:
         user_form = UserEditForm(instance = request.user)
-    return render(request, 'account/user/edit_details.html', {'user_form':user_form})
+    return render(request, 'account/dashboard/edit_details.html', {'user_form':user_form})
 
 @login_required
 def delete_user(request, id):
@@ -84,4 +84,4 @@ def delete_user(request, id):
         user.save()
         logout(request)
         return redirect('account:delete_confirmation')
-    return render (request, 'account/user/delete_confirmation.html', {'user':user})
+    return render (request, 'account/dashboard/delete_confirmation.html', {'user':user})

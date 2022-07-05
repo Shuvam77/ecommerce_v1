@@ -38,15 +38,3 @@ def user_orders(request):
     user_id = request.user.id
     orders = Order.objects.filter(user_id=user_id).filter(billing_status=True)
     return orders
-
-
-
-
-
-# Something of add later on!!
-        # custName = request.POST.get('custName')
-        # custAdd = request.POST.get('custAdd')
-        # custAdd2 = request.POST.get('custAdd')
-        # postCode = request.POST.get('postCode')
-
-        # order = Order.objects.create(user_id=user_id, full_name=custName, address1=custAdd, address2=custAdd2, post_code=postCode, total_paid=baskettotal, order_key=order_key)
