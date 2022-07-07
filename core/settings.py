@@ -167,3 +167,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 #Stripe payment
 STRIPE_ENDPOINT_SECRET = config('ENDPOINT_SECRET')
+os.environ.setdefault('STRIPE_P_KEY', config('STRIPE_PUBLISHABLE_KEY'))

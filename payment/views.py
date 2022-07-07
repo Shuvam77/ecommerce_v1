@@ -7,6 +7,7 @@ from decouple import config
 from django.views.decorators.csrf import csrf_exempt
 import stripe
 from orders.views import payment_confirmation
+import os
 
 
 # Create your views here.
@@ -25,7 +26,7 @@ def BasketView(request):
         metadata={'user_id': request.user.id}
     )
 
-    return render(request, 'payment/home.html', {'client_secret':intent.client_secret})
+    return render(request, 'payment/home.html', {'client_secret':intent.client_secret, 'STRIPE_P_KEY': os.environ.get('STRIPE_P_KEY')})
 
 
 @csrf_exempt
