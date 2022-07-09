@@ -9,3 +9,4 @@ stripe
 coverage
 flake9
 six
+django-debug-toolbar
