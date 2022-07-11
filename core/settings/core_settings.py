@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "orders",
     #    Third-Party applications
     "django_countries",
+    "mptt",
 ]
 
 MIDDLEWARE = [
