@@ -16,7 +16,7 @@ class Category(MPTTModel):
         verbose_name=_("Category Name"), help_text=_("Required and Unique!"), max_length=255, unique=True
     )
     slug = models.SlugField(verbose_name=_("Category URL"), max_length=255, unique=True)
-    parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, related_name="children")
+    parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
     is_active = models.BooleanField(default=True)
 
     class MPTTMeta:
@@ -106,7 +106,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(_("Updated Date"), auto_now=True)
 
     class Meta:
-        ordering = "-created_at"
+        ordering = ("-created_at",)
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
 
@@ -163,6 +163,3 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = _("Product Image")
         verbose_name_plural = _("Product Images")
-
-    def __str__(self):
-        return self.alt_text
