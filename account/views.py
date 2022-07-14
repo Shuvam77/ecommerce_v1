@@ -6,7 +6,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth import login, logout
 
-from account.models import UserBase
+from account.models import Customer
 
 from .forms import RegistrationForm, UserEditForm
 from .token import account_activation_token
@@ -55,7 +55,7 @@ def account_register(request):
 def account_activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        user = UserBase.objects.get(pk=uid)
+        user = Customer.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, user.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
@@ -78,7 +78,7 @@ def edit_details(request):
 
 @login_required
 def delete_user(request, id):
-    user = get_object_or_404(UserBase,pk=id)
+    user = get_object_or_404(Customer,pk=id)
     if request.method == 'POST':
         user.is_active = False
         user.save()

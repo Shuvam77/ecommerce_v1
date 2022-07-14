@@ -6,7 +6,8 @@ from .models import Category, Product
 
 
 def products_all(request):
-    products = Product.objects.all()
+    # products = Product.objects.all()
+    products = Product.objects.prefetch_related("product_image").filter(is_active=True)
     return render(request, "store/index.html", {"products": products})
 
 
@@ -17,6 +18,7 @@ def product_detail(request, slug):
 
 def category_list(request, slug):
     category = get_object_or_404(Category, slug=slug)
+    # products = Product.objects.filter(category__in=Category.objects.get(name=slug).get_descendants(include_self=True))
     products = Product.objects.filter(category=category)
 
     context = {"category": category, "products": products}
