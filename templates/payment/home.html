@@ -89,12 +89,12 @@
 </div>
 
   <script>
-    {
+    {% comment %} {
       % comment %
     }
     Make CSRF_Token available in JS files {
       % endcomment %
-    }
+    } {% endcomment %}
     var STRIPE_P_KEY = '{{STRIPE_P_KEY}}'
     var CSRF_TOKEN = '{{ csrf_token }}';
   </script>
