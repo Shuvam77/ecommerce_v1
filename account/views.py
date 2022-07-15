@@ -6,7 +6,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth import login, logout
 
-from account.models import Customer
+from account.models import Customer, Address
 
 from .forms import RegistrationForm, UserEditForm
 from .token import account_activation_token
@@ -19,8 +19,8 @@ from orders.views import user_orders
 
 @login_required
 def dashboard(request):
-    orders = user_orders(request)
-    return render(request, 'account/dashboard/dashboard.html', {'orders':orders})
+    # orders = user_orders(request)
+    return render(request, 'account/dashboard/dashboard.html')
 
 def account_register(request):
     if request.user.is_authenticated:
@@ -85,3 +85,14 @@ def delete_user(request, id):
         logout(request)
         return redirect('account:delete_confirmation')
     return render (request, 'account/dashboard/delete_confirmation.html', {'user':user})
+
+@login_required
+def view_address(request):
+    addresses = Address.objects.filter(customer=request.user)
+    return render (request, "account/dashboard/addresses.html", {"addresses":addresses})
+
+@login_required
+def view_orders(request):
+    orders = user_orders(request)
+    return render(request, 'account/dashboard/orders.html', {'orders':orders})
+
