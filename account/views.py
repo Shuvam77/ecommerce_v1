@@ -1,14 +1,15 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth import login, logout
 
 from account.models import Customer, Address
 
-from .forms import RegistrationForm, UserEditForm
+from .forms import RegistrationForm, UserEditForm, UserAddressForm
 from .token import account_activation_token
 
 from django.contrib.auth.decorators import login_required
@@ -95,4 +96,30 @@ def view_address(request):
 def view_orders(request):
     orders = user_orders(request)
     return render(request, 'account/dashboard/orders.html', {'orders':orders})
+
+@login_required
+def add_address(request):
+    if request.method == "POST":
+        form = UserAddressForm(data=request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.customer = request.user
+            form.save()
+            return HttpResponseRedirect(reverse("account:addresses"))
+    else:
+        form = UserAddressForm()
+    return render(request, "account/dashboard/edit_address.html", {"form": form})
+
+@login_required
+def edit_address(request, id):
+    if request.method == "POST":
+        address = get_object_or_404(Address, pk=id, customer=request.user)
+        form = UserAddressForm(instance=address, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("account:addresses"))
+    else:
+        address = get_object_or_404(Address, pk=id, customer=request.user)
+        form = UserAddressForm(instance=address)
+    return render(request, "account/dashboard/edit_address.html", {"form": form})
 

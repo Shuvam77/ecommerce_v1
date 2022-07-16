@@ -1,5 +1,5 @@
 from django import forms
-from .models import Customer
+from .models import Customer, Address
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
 
 
@@ -95,3 +95,29 @@ class PwdResetConfirmForm(SetPasswordForm):
     new_password2 = forms.CharField(label='Repeat Password',widget=forms.PasswordInput(
         attrs={'class':'form-control mb-3', 'placeholder':'Type New Password Again', 'id':'form-new-pass2'}
     ))
+
+class UserAddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ["full_name", "phone", "address_line", "address_line2", "town_city", "postcode"]
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields["full_name"].widget.attrs.update(
+                {"class":"form-control mb-2 account-form", "placeholder":"Full Name"}
+            )
+            self.fields["phone"].widget.attrs.update(
+                {"class":"form-control mb-2 account-form", "placeholder":"Phone"}
+            )
+            self.fields["address_line"].widget.attrs.update(
+                {"class":"form-control mb-2 account-form", "placeholder": "Address Line1"}
+            )
+            self.fields["address_line2"].widget.attrs.update(
+                {"class":"form-control mb-2 account-form", "placeholder": "Address Line2"}
+            )
+            self.fields["town_city"].widget.attrs.update(
+                {"class":"form-control mb-2 account-form", "placeholder": "Town/City"}
+            )
+            self.fields["postcode"].widget.attrs.update(
+                {"class":"form-control mb-2 account-form", "placeholder": "Postcode"}
+            )
