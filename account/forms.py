@@ -1,5 +1,5 @@
 from django import forms
-from .models import UserBase
+from .models import Customer, Address
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
 
 
@@ -10,12 +10,12 @@ class RegistrationForm(forms.ModelForm):
     password2 = forms.CharField(label='Enter your password again', min_length=4, max_length=50, help_text='Required!', widget=forms.PasswordInput)
 
     class Meta:
-        model = UserBase
+        model = Customer
         fields = ('user_name', 'email')
 
     def clean_username(self):
         user_name = self.cleaned_data['user_name'].lower()
-        check_uname = UserBase.objects.filter(user_name=user_name)
+        check_uname = Customer.objects.filter(user_name=user_name)
         if check_uname.count():
             raise forms.ValidationError("Username already exists!")
         return user_name
@@ -28,7 +28,7 @@ class RegistrationForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        check_email = UserBase.objects.filter(email=email)
+        check_email = Customer.objects.filter(email=email)
         if check_email.exists():
             raise forms.ValidationError("Email already exists! Try other email address")
         return email
@@ -65,7 +65,7 @@ class UserEditForm(forms.ModelForm):
         attrs={'class': 'form-control mb-3', 'placeholder': 'User Bio', 'id': 'form-bio'}))
 
     class Meta:
-        model = UserBase
+        model = Customer
         fields = ('email', 'first_name', 'about')
 
     def __init__(self, *args, **kwargs):
@@ -82,7 +82,7 @@ class PwdResetForm(PasswordResetForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        user = UserBase.objects.filter(email=email)
+        user = Customer.objects.filter(email=email)
         if not user:
             raise forms.ValidationError('Unfortunately we cannot find that email address!')
         return email
@@ -95,3 +95,29 @@ class PwdResetConfirmForm(SetPasswordForm):
     new_password2 = forms.CharField(label='Repeat Password',widget=forms.PasswordInput(
         attrs={'class':'form-control mb-3', 'placeholder':'Type New Password Again', 'id':'form-new-pass2'}
     ))
+
+class UserAddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ["full_name", "phone", "address_line", "address_line2", "town_city", "postcode"]
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields["full_name"].widget.attrs.update(
+                {"class":"form-control mb-2 account-form", "placeholder":"Full Name"}
+            )
+            self.fields["phone"].widget.attrs.update(
+                {"class":"form-control mb-2 account-form", "placeholder":"Phone"}
+            )
+            self.fields["address_line"].widget.attrs.update(
+                {"class":"form-control mb-2 account-form", "placeholder": "Address Line1"}
+            )
+            self.fields["address_line2"].widget.attrs.update(
+                {"class":"form-control mb-2 account-form", "placeholder": "Address Line2"}
+            )
+            self.fields["town_city"].widget.attrs.update(
+                {"class":"form-control mb-2 account-form", "placeholder": "Town/City"}
+            )
+            self.fields["postcode"].widget.attrs.update(
+                {"class":"form-control mb-2 account-form", "placeholder": "Postcode"}
+            )

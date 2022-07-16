@@ -68,7 +68,7 @@
                         <span class="fs15 fw500">Shop</span>
                     </button>
 
-                    {% if user.is_authenticated %}
+                    {% comment %} {% if user.is_authenticated %}
                     <a type="button" role="button" href="{% url 'account:logout' %}"
                         class="btn btn-outline-secondary border-0 basket-btn">
                         <div>
@@ -94,10 +94,9 @@
                         </div>
                         <span class="fs15 fw500">Login</span>
                     </a>
-                    {% endif %}
+                    {% endif %} {% endcomment %}
 
-
-                    <a type="button" role="button" href="{% url 'account:dashboard' %}"
+                    {% comment %} <a type="button" role="button" href="{% url 'account:dashboard' %}"
                         class="btn btn-outline-secondary border-0 basket-btn">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -107,7 +106,84 @@
                             </svg>
                         </div>
                         <span class="fs15 fw500">Account</span>
-                    </a>
+                    </a> {% endcomment %}
+
+                    <div>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-reset" href="#" id="navbarDropdown"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <div class="small text-muted">Hello,
+                                            {% if user.is_authenticated %}
+                                            {{ request.user.name }}
+                                            {% else %}
+                                            Login
+                                            {% endif %}
+                                        </div>
+                                        <span class="fs15 fw500">Account &amp; Lists
+                                        </span>
+                                        </span>
+                                    </a>
+                                    <div class="dropdown-menu rounded-0" aria-labelledby="navbarDropdown">
+                                        <div class="card border-0">
+                                            <div class="card-body">
+                                                <h6 class="card-title">My Account</h6>
+                                                <ul class="list-group list-group-flush dropdown-account-link">
+                                                    {% if user.is_authenticated %}
+                                                    <a href="{% url "account:dashboard" %}"
+                                                        class="text-reset small list-group-item p-0 pb-1 border-0 dropdown-account-link">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                            fill="currentColor" class="bi bi-person"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                                                        </svg>
+                                                        <span class="fs15 fw500">Account</span>
+                                                    </a>
+                                                    <a href="#"
+                                                        class="text-reset small list-group-item p-0 pb-1 border-0 dropdown-account-link">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                            fill="currentColor" viewBox="0 0 512 512">
+                                                            <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                                            <path
+                                                                d="M152.1 38.16C161.9 47.03 162.7 62.2 153.8 72.06L81.84 152.1C77.43 156.9 71.21 159.8 64.63 159.1C58.05 160.2 51.69 157.6 47.03 152.1L7.029 112.1C-2.343 103.6-2.343 88.4 7.029 79.03C16.4 69.66 31.6 69.66 40.97 79.03L63.08 101.1L118.2 39.94C127 30.09 142.2 29.29 152.1 38.16V38.16zM152.1 198.2C161.9 207 162.7 222.2 153.8 232.1L81.84 312.1C77.43 316.9 71.21 319.8 64.63 319.1C58.05 320.2 51.69 317.6 47.03 312.1L7.029 272.1C-2.343 263.6-2.343 248.4 7.029 239C16.4 229.7 31.6 229.7 40.97 239L63.08 261.1L118.2 199.9C127 190.1 142.2 189.3 152.1 198.2V198.2zM224 96C224 78.33 238.3 64 256 64H480C497.7 64 512 78.33 512 96C512 113.7 497.7 128 480 128H256C238.3 128 224 113.7 224 96V96zM224 256C224 238.3 238.3 224 256 224H480C497.7 224 512 238.3 512 256C512 273.7 497.7 288 480 288H256C238.3 288 224 273.7 224 256zM160 416C160 398.3 174.3 384 192 384H480C497.7 384 512 398.3 512 416C512 433.7 497.7 448 480 448H192C174.3 448 160 433.7 160 416zM0 416C0 389.5 21.49 368 48 368C74.51 368 96 389.5 96 416C96 442.5 74.51 464 48 464C21.49 464 0 442.5 0 416z" />
+                                                            </svg>
+                                                        <span class="fs15 fw500">Orders</span>
+                                                    </a>
+                                                    <a href="{% url "account:logout" %}"
+                                                        class="text-reset small list-group-item p-0 pb-1 border-0 dropdown-account-link">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                            fill="currentColor" class="bi bi-door-closed"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z" />
+                                                            <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" />
+                                                        </svg>
+                                                        <span class="fs15 fw500">Logout</span>
+                                                    </a>
+                                                    {% else %}
+                                                    <a href="{% url "account:login" %}"
+                                                        class="text-reset small list-group-item p-0 pb-1 border-0 dropdown-account-link">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                            fill="currentColor" class="bi bi-door-closed"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z" />
+                                                            <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" />
+                                                        </svg>
+                                                        <span class="fs15 fw500">Login</span>
+
+                                                    </a>
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
                     <a type="button" role="button" href="{% url "basket:basket_summary" %}"
                         class="btn btn-outline-secondary border-0 basket-btn">
@@ -140,6 +216,16 @@
                                 <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name|title }}</a>
                             </li>
                             {% endfor %}
+                        </ul>
+                        <h6 class="card-title">My Account</h6>
+                        <ul class="list-group list-group-flush dropdown-account-link">
+                            {% if user.is_authenticated %}
+                            <a href="{% url "account:dashboard" %}" class="dropdown-item">Your Account</a>
+                            <a href="#" class="dropdown-item">Orders</a>
+                            <a href="{% url "account:logout" %}" class="dropdown-item">Logout</a>
+                            {% else %}
+                            <a href="{% url "account:login" %}" class="dropdown-item">Login</a>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>

@@ -29,7 +29,7 @@ class Basket():
         if product_id in self.basket:
             self.basket[product_id]['qty'] = product_qty
         else:
-            self.basket[product_id] = {'price':str(product.price), 'qty': int(product_qty)}
+            self.basket[product_id] = {'price':str(product.regular_price), 'qty': int(product_qty)}
         self.save()
 
     
@@ -46,7 +46,7 @@ class Basket():
         query the database and return products.
         """
         product_chunks = self.basket.keys()
-        products = Product.products.filter(id__in=product_chunks)
+        products = Product.objects.filter(id__in=product_chunks)
         basket = self.basket.copy()
 
         for product in products:

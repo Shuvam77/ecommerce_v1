@@ -1,14 +1,15 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth import login, logout
 
-from account.models import UserBase
+from account.models import Customer, Address
 
-from .forms import RegistrationForm, UserEditForm
+from .forms import RegistrationForm, UserEditForm, UserAddressForm
 from .token import account_activation_token
 
 from django.contrib.auth.decorators import login_required
@@ -19,8 +20,8 @@ from orders.views import user_orders
 
 @login_required
 def dashboard(request):
-    orders = user_orders(request)
-    return render(request, 'account/dashboard/dashboard.html', {'orders':orders})
+    # orders = user_orders(request)
+    return render(request, 'account/dashboard/dashboard.html')
 
 def account_register(request):
     if request.user.is_authenticated:
@@ -55,7 +56,7 @@ def account_register(request):
 def account_activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        user = UserBase.objects.get(pk=uid)
+        user = Customer.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, user.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
@@ -78,10 +79,47 @@ def edit_details(request):
 
 @login_required
 def delete_user(request, id):
-    user = get_object_or_404(UserBase,pk=id)
+    user = get_object_or_404(Customer,pk=id)
     if request.method == 'POST':
         user.is_active = False
         user.save()
         logout(request)
         return redirect('account:delete_confirmation')
     return render (request, 'account/dashboard/delete_confirmation.html', {'user':user})
+
+@login_required
+def view_address(request):
+    addresses = Address.objects.filter(customer=request.user)
+    return render (request, "account/dashboard/addresses.html", {"addresses":addresses})
+
+@login_required
+def view_orders(request):
+    orders = user_orders(request)
+    return render(request, 'account/dashboard/orders.html', {'orders':orders})
+
+@login_required
+def add_address(request):
+    if request.method == "POST":
+        form = UserAddressForm(data=request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.customer = request.user
+            form.save()
+            return HttpResponseRedirect(reverse("account:addresses"))
+    else:
+        form = UserAddressForm()
+    return render(request, "account/dashboard/edit_address.html", {"form": form})
+
+@login_required
+def edit_address(request, id):
+    if request.method == "POST":
+        address = get_object_or_404(Address, pk=id, customer=request.user)
+        form = UserAddressForm(instance=address, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("account:addresses"))
+    else:
+        address = get_object_or_404(Address, pk=id, customer=request.user)
+        form = UserAddressForm(instance=address)
+    return render(request, "account/dashboard/edit_address.html", {"form": form})
+
