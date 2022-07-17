@@ -59,14 +59,14 @@ class UserEditForm(forms.ModelForm):
         attrs={'class': 'form-control mb-3', 'placeholder': 'Email Address', 'id':'form-email', 'readonly':'readonly'}))
     # user_name = forms.CharField(label='Username', min_length=4, max_length=50, widget=forms.TextInput(
     #     attrs={'class': 'form-control mb-3', 'placeholder': 'Username', 'id': 'form-username', 'readonly': 'readonly'}))
-    first_name = forms.CharField(label='FirstName', min_length=4, max_length=50, widget=forms.TextInput(
+    name = forms.CharField(label='Name', min_length=4, max_length=50, widget=forms.TextInput(
         attrs={'class': 'form-control mb-3', 'placeholder': 'Firstname', 'id': 'form-firstname'}))
-    about = forms.CharField(label='About User', min_length=20, max_length=150, widget=forms.Textarea(
-        attrs={'class': 'form-control mb-3', 'placeholder': 'User Bio', 'id': 'form-bio'}))
+    # about = forms.CharField(label='About User', min_length=20, max_length=150, widget=forms.Textarea(
+    #     attrs={'class': 'form-control mb-3', 'placeholder': 'User Bio', 'id': 'form-bio'}))
 
     class Meta:
         model = Customer
-        fields = ('email', 'first_name', 'about')
+        fields = ('email', 'name')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
