@@ -73,6 +73,7 @@ def edit_details(request):
         user_form = UserEditForm(instance=request.user, data=request.POST)
         if user_form.is_valid():
             user_form.save()
+        return redirect("account:dashboard")
     else:
         user_form = UserEditForm(instance = request.user)
     return render(request, 'account/dashboard/edit_details.html', {'user_form':user_form})
@@ -122,4 +123,15 @@ def edit_address(request, id):
         address = get_object_or_404(Address, pk=id, customer=request.user)
         form = UserAddressForm(instance=address)
     return render(request, "account/dashboard/edit_address.html", {"form": form})
+
+@login_required
+def delete_address(request, id):
+    address = get_object_or_404(Address, pk=id, customer=request.user).delete()
+    return redirect ("account:addresses")
+
+@login_required
+def set_default(request, id):
+    Address.objects.filter(customer=request.user, default=True).update(default=False)
+    Address.objects.filter(pk=id, customer=request.user).update(default=True)
+    return redirect ("account:addresses")
 
