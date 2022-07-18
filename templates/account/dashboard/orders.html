@@ -56,9 +56,17 @@
 
                 <div class="card mb-3 border-0">
                     <div class="row g-0">
+                        {% for image in item.product.product_image.all %}
                         <div class="col-md-2 d-none d-md-block">
-                            <img class="img-fluid" style="width:90px" src="{{item.product.image.url}}" />
+                          {% if image.is_feature %}
+                          <img
+                            class="img-fluid"
+                            style="width:90px"
+                            alt="{{image.image.alt_text}}"
+                            src="{{ image.image.url }}"/>
+                          {% endif %}
                         </div>
+                        {% endfor %}
                         <div class="col-md-10">
                             <div class="card-body p-1">
                                 <a class="text-decoration-none" href="{{ item.product.get_absolute_url }}">
