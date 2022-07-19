@@ -1,11 +1,16 @@
-from django.contrib.auth.models import User
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 # Create your models here.
+
+
+# class ProductManager(models.Manager):
+#     def get_queryset(self):
+#         return super(ProductManager, self).get_queryset().filter(is_active=True)
 
 
 class Category(MPTTModel):
@@ -105,7 +110,8 @@ class Product(models.Model):
     )
     created_at = models.DateTimeField(_("Created Date"), auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(_("Updated Date"), auto_now=True)
-    users_wishlist = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='users_wishlist', blank=True)
+    users_wishlist = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="users_wishlist", blank=True)
+    # products = ProductManager()
 
     class Meta:
         ordering = ("-created_at",)
