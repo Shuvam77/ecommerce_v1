@@ -74,3 +74,20 @@ Testing is done through, unittest and pytest.
   ```
   (env) e_commerce $ python manage.py runserver
   ```
+  
+  **Stripe Webhook Configuration**
+  ###### Stripe login in new terminal
+  You need to put your credentials to login
+  ```
+  e_commerce $ ./stripe login
+  ```
+  
+  ###### Activate listen command for webhook
+  ```
+  e_commerce $ ./stripe listen --forward-to localhost:8000/payment/webhook/
+  ```
+  
+  ###### Logout of stripe webhook
+  ```
+  e_commerce $ ./stripe logout
+  ```
