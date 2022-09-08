@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-y=9x^h54@ol!&rfpkhqvtq-99z7%s!famj!o=%ysal*$5mndi^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     #    Third-Party applications
     "django_countries",
     "mptt",
+    "django_elasticsearch_dsl",
 ]
 
 MIDDLEWARE = [
@@ -164,3 +165,10 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # Stripe payment
 STRIPE_ENDPOINT_SECRET = config("ENDPOINT_SECRET")
 os.environ.setdefault("STRIPE_P_KEY", config("STRIPE_PUBLISHABLE_KEY"))
+
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+ELASTICSEARCH_DSL = {"default": {"hosts": "localhost:9200"}}
