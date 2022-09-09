@@ -11,10 +11,10 @@ class ProductDocument(Document):
     product_type = fields.ObjectField(properties={"name": fields.TextField()})
 
     class Index:
-        name = "products"
+        name = "product"
 
         settings = {"number_of_shards": 1, "number_of_replicas": 0}
 
     class Django:
         model = Product
-        fields = ["id", "title"]
+        fields = ["id", "title", "description", "slug", "regular_price", "discount_price"]

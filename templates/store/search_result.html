@@ -24,7 +24,7 @@
     <div class="row">
       <div class="album py-5">
         <div class="pb-3">
-          <h1 class="h3">Popular</h1>
+          <h1 class="h3">Search</h1>
         </div>
 
         {% if not products %}
@@ -54,7 +54,7 @@
                 <p class="card-text">
                   <a
                     class="text-dark text-decoration-none"
-                    href="{{ product.get_absolute_url }}"
+                    href="{% url 'store:product_detail' product.slug %}"
                     >{{ product.title|slice:":50" }}...</a
                   >
                 </p>
