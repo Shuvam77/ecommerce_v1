@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from elasticsearch_dsl import Q
 
-from .documents import ProductDocument
+from .documents import ProductDocument, ProductImageDocument
 from .models import Category, Product
 
 # Create your views here.
@@ -29,11 +29,14 @@ def category_list(request, slug):
 
 def search_view(request):
     q = request.GET.get("q")
-    # q = Q("multi_match", query=q, fields=["title"])
+    # q = Q("multi_match", query=q, fields=["title", "category__name"], fuzziness="auto")
     q = Q("match", title=q) | Q("match", category__name=q)
+
     if q:
         # products = ProductDocument.search().query("match", category__name=q)
         products = ProductDocument.search().query(q)
+        for x in products:
+            print(x)
     else:
         products = None
 

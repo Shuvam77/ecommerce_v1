@@ -27,12 +27,12 @@
           <h1 class="h3">Search</h1>
         </div>
 
-        {% if products = "" %}
+        {% if not products %}
         <div class="col-12">This product is currently not available!</div>
         {% else %}
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
-          {% for product ="" %}
+          {% for product in products %}
           <div class="col">
             <div class="card border-0">
               {% for image in product.product_image.all %}
