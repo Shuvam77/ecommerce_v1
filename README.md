@@ -13,6 +13,8 @@ Elasticsearch engine is used to query search function.
   5. [Bootstrap5](https://getbootstrap.com/)
   6. [Stripe](https://stripe.com/en-de)
   7. [Elasticsearch](https://django-elasticsearch-dsl.readthedocs.io/en/latest/quickstart.html)
+  8. [Docker](https://www.docker.com/)
+
   
  # Installation
   **GIT clone from GitHub**
