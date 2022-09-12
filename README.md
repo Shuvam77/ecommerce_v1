@@ -3,6 +3,7 @@
 This is a simple E-Commerce Project developed using django framework. This project is integrated with user email authentication and email activation token autentication. Different packages is used while developing this application such as coverage, six, isort, black, stripe, and so on, which are all mentioned in requirements.txt file.  
 Stripe payment gateway mechanism is integrated in this application for online transaction between buyers and seller. Stripe webhook is integrated to get real-time data from stripe.  
 Testing is done through, unittest and pytest.  
+Elasticsearch engine is used to query search function.
 
 # Tech Stack
   1. [Python 3.9](https://www.python.org/)
@@ -11,6 +12,7 @@ Testing is done through, unittest and pytest.
   4. [jQuery 3.6.0](https://blog.jquery.com/2021/03/02/jquery-3-6-0-released/)
   5. [Bootstrap5](https://getbootstrap.com/)
   6. [Stripe](https://stripe.com/en-de)
+  7. [Elasticsearch](https://django-elasticsearch-dsl.readthedocs.io/en/latest/quickstart.html)
   
  # Installation
   **GIT clone from GitHub**
@@ -72,7 +74,7 @@ Testing is done through, unittest and pytest.
   
   ###### Runserver
   ```
-  (env) e_commerce $ python manage.py runserver
+  (venv) e_commerce $ python manage.py runserver
   ```
   
   **Stripe Webhook Configuration**
@@ -90,4 +92,15 @@ Testing is done through, unittest and pytest.
   ###### Logout of stripe webhook
   ```
   e_commerce $ ./stripe logout
+  ```
+
+  **ElasticSearch**
+  ###### Run elasticsearch container using docker
+  ```
+  e_commerce $ docker-compose up -d
+  ```
+  
+  ######To create and populate the Elasticsearch index and mapping use the search_index command
+  ```
+  (venv)e_commerce $ python manage.py search_index --rebuild
   ```
