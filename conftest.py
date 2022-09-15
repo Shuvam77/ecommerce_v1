@@ -4,7 +4,12 @@
 import pytest
 from pytest_factoryboy import register
 
-from tests.factories import CategoryFactory
+from tests.factories import (
+    CategoryFactory,
+    ProductFactory,
+    ProductSpecificationFactory,
+    ProductTypeFactory,
+)
 
 
 # Pytest fixtures have five different scopes: function, class, module, package, and session.
@@ -23,3 +28,30 @@ register(CategoryFactory)
 def product_category(db, category_factory):
     category = category_factory.create()
     return category
+
+
+register(ProductTypeFactory)
+
+
+@pytest.fixture
+def product_type_category(db, product_type_factory):
+    productType = product_type_factory.create()
+    return productType
+
+
+register(ProductSpecificationFactory)
+
+
+@pytest.fixture
+def product_specification_category(db, product_specification_factory):
+    productSpec = product_specification_factory.create()
+    return productSpec
+
+
+register(ProductFactory)
+
+
+@pytest.fixture
+def product_fact_category(db, product_factory):
+    product = product_factory.create()
+    return product
