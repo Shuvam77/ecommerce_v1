@@ -6,6 +6,7 @@ from pytest_factoryboy import register
 
 from tests.factories import (
     CategoryFactory,
+    CustomerFactory,
     ProductFactory,
     ProductSpecificationFactory,
     ProductTypeFactory,
@@ -55,3 +56,19 @@ register(ProductFactory)
 def product_fact_category(db, product_factory):
     product = product_factory.create()
     return product
+
+
+register(CustomerFactory)
+
+
+@pytest.fixture
+def customer_account(db, customer_factory):
+    customer = customer_factory.create()
+    return customer
+
+
+# Overriding the data from customer_factory and also passing excess required data
+@pytest.fixture
+def admin_user(db, customer_factory):
+    user = customer_factory.create(name="admin_user", email="adminuser@email.com", is_staff=True, is_superuser=True)
+    return user

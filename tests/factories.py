@@ -1,5 +1,7 @@
 import factory
 from faker import Faker
+
+from account.models import Address, Customer
 from store.models import Category, Product, ProductSpecification, ProductType
 
 fake = Faker()
@@ -44,3 +46,26 @@ class ProductFactory(factory.django.DjangoModelFactory):
     slug = "django_academy"
     regular_price = "29.99"
     discount_price = "19.99"
+
+
+# Account factory fake data
+class CustomerFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Customer
+
+    email = "admin@email.com"
+    name = "admin"
+    mobile = "12345678912"
+    password = "test@123"
+    is_active = True
+    is_staff = False
+
+    @classmethod
+    def _create(cls, model_class, *args, **kwargs):
+        # get model manager from customer
+        manager = cls._get_manager(model_class)
+
+        if "is_superuser" in kwargs:
+            return manager.create_superuser(*args, **kwargs)
+        else:
+            return manager.create_user(*args, **kwargs)
