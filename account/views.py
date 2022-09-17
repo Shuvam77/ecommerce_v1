@@ -52,6 +52,8 @@ def account_register(request):
             )
             user.email_user(subject=subject, message=message)
             return render(request, "account/registration/register_email_confirm.html", {"form": registerForm})
+        else:
+            return HttpResponse("Error handler content", status=400)
     else:
         registerForm = RegistrationForm()
     return render(request, "account/registration/register.html", {"form": registerForm})
@@ -116,6 +118,8 @@ def add_address(request):
             form.customer = request.user
             form.save()
             return HttpResponseRedirect(reverse("account:addresses"))
+        else:
+            return HttpResponse("Error handler content", status=400)
     else:
         form = UserAddressForm()
     return render(request, "account/dashboard/edit_address.html", {"form": form})

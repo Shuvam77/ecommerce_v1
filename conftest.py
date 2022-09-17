@@ -5,6 +5,7 @@ import pytest
 from pytest_factoryboy import register
 
 from tests.factories import (
+    AddressFactory,
     CategoryFactory,
     CustomerFactory,
     ProductFactory,
@@ -72,3 +73,12 @@ def customer_account(db, customer_factory):
 def admin_user(db, customer_factory):
     user = customer_factory.create(name="admin_user", email="adminuser@email.com", is_staff=True, is_superuser=True)
     return user
+
+
+register(AddressFactory)
+
+
+@pytest.fixture
+def address(db, address_factory):
+    address = address_factory.create()
+    return address
